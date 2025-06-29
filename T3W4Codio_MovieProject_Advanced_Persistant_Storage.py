@@ -6,6 +6,7 @@ import sys # for quit_program function
 from storage import T4W4movie_storage_sql as storage
 import requests
 import os
+import re
 
 OMDB_API_KEY = "3ec8c4da"
 
@@ -29,10 +30,23 @@ def fetch_movie_from_omdb(title):
             print(f"{RED}Movie not found: {data.get('Error')}{RESET}")
             return None
 
+        # Extract year
+        year_str = data.get("Year", "")
+        match = re.match(r"(\d{4})", year_str)
+        year_num = int(match.group(1)) if match else 0
+
+        # Extract and convert rating
+        rating_str = data.get("imdbRating", "0.0")
+        try:
+            rating = float(rating_str)
+        except ValueError:
+            rating = 0.0
+
+        # Return dictionary
         return {
-            "title": data["Title"],
-            "year": int(data["Year"]),
-            "rating": float(data.get("imdbRating", 0.0)),
+            "title": data.get("Title", "Unknown"),
+            "year": year_num,
+            "rating": rating,
             "poster_url": data.get("Poster", "")
         }
 
