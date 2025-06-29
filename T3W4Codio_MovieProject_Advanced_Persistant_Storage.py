@@ -3,7 +3,7 @@ import random
 import difflib  #for fuzzy matching
 import matplotlib.pyplot as plt
 import sys # for quit_program function
-import T4W4movie_storage_sql as storage
+from storage import T4W4movie_storage_sql as storage
 import requests
 import os
 

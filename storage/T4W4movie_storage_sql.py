@@ -1,7 +1,14 @@
 from sqlalchemy import create_engine, text
+import os
 
 # Define the database URL
-DB_URL = "sqlite:///movies.db"
+
+# Get the absolute path to the 'data' folder relative to this file's parent directory
+data_folder = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
+db_path = os.path.join(data_folder, "movies.db")
+
+# Use the absolute path in the DB URL (note: 3 slashes for absolute path)
+DB_URL = f"sqlite:///{db_path}"
 
 # Create the engine
 engine = create_engine(DB_URL, echo=True)
